@@ -30,18 +30,18 @@ def integral_simpson(f, a, b, n):
     return integral/3.0
 
 def integral_simpson2(f, a, b, n):
-    #Si el numero de puntos es par, se suma uno para que quede impar.
-    n = n + 1 - n%2
-    delta = float(b-a)/(n-1)
-    x = np.linspace(a,b,n)
-    indexes = np.linspace(1,n,n)
-    y = f(x)*delta*(4-2*(indexes%2))
-    y[0] = y[0]/2.0
-    y[n-1] = y[n-1]/2.0
-    integral = sum(y)/3.0
-	if a>b:
-		integral = -integral
-    return integral
+  #Si el numero de puntos es par, se suma uno para que quede impar.
+  n = n + 1 - n%2
+  delta = float(b-a)/(n-1)
+  x = np.linspace(a,b,n)
+  indexes = np.linspace(1,n,n)
+  y = f(x)*delta*(4-2*(indexes%2))
+  y[0] = y[0]/2.0
+  y[n-1] = y[n-1]/2.0
+  integral = sum(y)/3.0
+  if a>b:
+    integral = -integral
+  return integral
 
 #Funcion rampa unitaria, auxiliar para montecarlo
 def r(x):
@@ -109,22 +109,24 @@ mc_n = np.array([integral_montecarlo(np.cos, a, b, numPoints_i) for numPoints_i 
 print mc_n
 mv_n = np.array([integral_meanvalue(np.cos, a, b, numPoints_i) for numPoints_i in numPoints])
 print mv_n
-plt.loglog(numPoints, abs(trapezoids_n-analitic_int)/float(analitic_int))
-plt.loglog(numPoints, abs(simpson_n-analitic_int)/float(analitic_int))
-plt.loglog(numPoints, abs(mc_n-analitic_int)/float(analitic_int))
-plt.loglog(numPoints, abs(mv_n-analitic_int)/float(analitic_int))
+plt.loglog(numPoints, abs(trapezoids_n-analitic_int)/float(analitic_int), label="Error Trapezoide")
+plt.loglog(numPoints, abs(simpson_n-analitic_int)/float(analitic_int), label="Error Simpson")
+plt.loglog(numPoints, abs(mc_n-analitic_int)/float(analitic_int), label="Error Montecarlo")
+plt.loglog(numPoints, abs(mv_n-analitic_int)/float(analitic_int), label="Error Valores medios")
 plt.show()
 
 n = 1025
 a1 = 0
 a2 = 10**(-6)
 b = 1
+#Las integrales que no convergen son la del Trapezoide y la de Simpson.
 trapezoids_c = integral_trapezoid(f_c, a1, b, n)
 simpson_c = integral_simpson(f_c, a1, b, n)
 mc_c = integral_montecarlo(f_c, a1, b, n, 0, 100)
 mv_c = integral_meanvalue(f_c, a1, b, n)
 print "La integral con simgularidad vale", trapezoids_c, "con el metodo del Trapezoide,", simpson_c, "con Simpson,", mc_c, "con Monte Carlo y", mv_c, "con Valores Medios"
 
+#Los metodos del Trapezoide y de Simpson estan muy alejados del valor real si se cambia infinito por 10^6
 trapezoids_c = integral_trapezoid(np.vectorize(f_c_sin_sing), a1, b, n)
 simpson_c = integral_simpson(np.vectorize(f_c_sin_sing), a1, b, n)
 mc_c = integral_montecarlo(np.vectorize(f_c_sin_sing), a1, b, n, 0, 100)
@@ -134,6 +136,7 @@ print "El nuevo valor de la integral usando el metodo de Simpson cambiando infin
 print "El nuevo valor de la integral usando el metodo de Monte Carlo cambiando infinito por 10^6 es", mc_c
 print "El nuevo valor de la integral usando el metodo de Valores Medios cambiando infinito por 10^6 es", mv_c
 
+#Al no evaluar en la singularidad, los metodos del Trapezoide y de Simpson son los que mas se acercan al valor real de la integral
 trapezoids_c = integral_trapezoid(f_c, a2, b, n)
 simpson_c = integral_simpson(f_c, a2, b, n)
 mc_c = integral_montecarlo(f_c, a2, b, n, 0, 100)
@@ -144,8 +147,8 @@ print "El nuevo valor de la integral usando el metodo de Monte Carlo evaluando l
 print "El nuevo valor de la integral usando el metodo de Valores Medios evaluando la función en 10^-6 y no en 0 es", mv_c
 
 analitic_int2 = 2
-trapezoids_c = integral_trapezoid1(f_c2, a1, b, n) + analitic_int2
-simpson_c = integral_simpson2(f_c2, a1, b, n) + analitic_int2
+trapezoids_c = integral_trapezoid(f_c2, a1, b, n) + analitic_int2
+simpson_c = integral_simpson(f_c2, a1, b, n) + analitic_int2
 mc_c = integral_montecarlo(np.vectorize(f_c2), a1, b, n, 0, 10) + analitic_int2
 mv_c = integral_meanvalue(np.vectorize(f_c2), a1, b, n) + analitic_int2
 print "Restando la singularidad el resultado es", trapezoids_c, "con el metodo del Trapezoide,", simpson_c, "con Simpson,", mc_c, "con Monte Carlo y", mv_c, "con Valores Medios"
