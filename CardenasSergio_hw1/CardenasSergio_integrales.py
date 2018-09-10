@@ -6,7 +6,7 @@ def integral_trapezoid(f, a, b, n):
     for i in range(n-1):
         integral = integral + delta*0.5*(f(a+delta*i)+f(a+delta*(i+1)))
     return integral
-
+#Se usa este metodo cuando n es muy grande (mayor eficienfia en tiempo)
 def integral_trapezoid2(f, a, b, n):
     delta = float(b-a)/(n-1)
     x = np.linspace(a, b, n)
@@ -29,6 +29,7 @@ def integral_simpson(f, a, b, n):
         impar = 1 - impar
     return integral/3.0
 
+#Se usa este metodo cuando n es muy grande (mayor eficienfia en tiempo)
 def integral_simpson2(f, a, b, n):
   #Si el numero de puntos es par, se suma uno para que quede impar.
   n = n + 1 - n%2
@@ -100,20 +101,21 @@ err_mv = abs(int_mv-analitic_int)/float(analitic_int)
 print "metodo: Valores medios, valor de la integral:", int_mv,", error:", err_mv
 
 numPoints = np.logspace(2, 7, 6, dtype=np.dtype(np.int32)) + 1
-print numPoints
+print "Numero de puntos:", numPoints
 trapezoids_n = np.array([integral_trapezoid2(np.cos, a, b, numPoints_i) for numPoints_i in numPoints])
-print trapezoids_n
+print "Trapezoide:", trapezoids_n
 simpson_n = np.array([integral_simpson2(np.cos, a, b, numPoints_i) for numPoints_i in numPoints])
-print simpson_n
+print "Simpson:", simpson_n
 mc_n = np.array([integral_montecarlo(np.cos, a, b, numPoints_i) for numPoints_i in numPoints])
-print mc_n
+print "Montecarlo:", mc_n
 mv_n = np.array([integral_meanvalue(np.cos, a, b, numPoints_i) for numPoints_i in numPoints])
-print mv_n
+print "Valores medios:", mv_n
 plt.loglog(numPoints, abs(trapezoids_n-analitic_int)/float(analitic_int), label="Error Trapezoide")
 plt.loglog(numPoints, abs(simpson_n-analitic_int)/float(analitic_int), label="Error Simpson")
 plt.loglog(numPoints, abs(mc_n-analitic_int)/float(analitic_int), label="Error Montecarlo")
 plt.loglog(numPoints, abs(mv_n-analitic_int)/float(analitic_int), label="Error Valores medios")
-plt.show()
+plt.legend(loc=0)
+plt.savefig("CardenasSergio_int_error.pdf")
 
 n = 1025
 a1 = 0
@@ -141,15 +143,16 @@ trapezoids_c = integral_trapezoid(f_c, a2, b, n)
 simpson_c = integral_simpson(f_c, a2, b, n)
 mc_c = integral_montecarlo(f_c, a2, b, n, 0, 100)
 mv_c = integral_meanvalue(f_c, a2, b, n)
-print "El nuevo valor de la integral usando el metodo del Trapezoide evaluando la función en 10^-6 y no en 0 es", trapezoids_c
-print "El nuevo valor de la integral usando el metodo de Simpson evaluando la función en 10^-6 y no en 0 es", simpson_c
-print "El nuevo valor de la integral usando el metodo de Monte Carlo evaluando la función en 10^-6 y no en 0 es", mc_c
-print "El nuevo valor de la integral usando el metodo de Valores Medios evaluando la función en 10^-6 y no en 0 es", mv_c
+print "El nuevo valor de la integral usando el metodo del Trapezoide evaluando la funcion en 10^-6 y no en 0 es", trapezoids_c
+print "El nuevo valor de la integral usando el metodo de Simpson evaluando la funcion en 10^-6 y no en 0 es", simpson_c
+print "El nuevo valor de la integral usando el metodo de Monte Carlo evaluando la funcion en 10^-6 y no en 0 es", mc_c
+print "El nuevo valor de la integral usando el metodo de Valores Medios evaluando la funcion en 10^-6 y no en 0 es", mv_c
 
 analitic_int2 = 2
 trapezoids_c = integral_trapezoid(f_c2, a1, b, n) + analitic_int2
 simpson_c = integral_simpson(f_c2, a1, b, n) + analitic_int2
-mc_c = integral_montecarlo(np.vectorize(f_c2), a1, b, n, 0, 10) + analitic_int2
+mc_c = integral_montecarlo(np.vectorize(f_c2), a1, b, n, 0, 0.1) + analitic_int2
 mv_c = integral_meanvalue(np.vectorize(f_c2), a1, b, n) + analitic_int2
 print "Restando la singularidad el resultado es", trapezoids_c, "con el metodo del Trapezoide,", simpson_c, "con Simpson,", mc_c, "con Monte Carlo y", mv_c, "con Valores Medios"
-print "De todos los metodos, el que mas se acerca al valor real es Simpson, siempre y cuando se elimine la singularidad o no se evalue en ella."
+print "De los trucos usados, el mejor fue el de eliminar la singularidad restando otra funcion, pues los metodos del Trapezoide y de Simpson se acercaron en gran medida al valor real de la imtegral."
+print "De los metodos de integracion usados, el mejor fue el de Simpson, siempre y cuando no se evalue en la singularidad, ya sea cambiando el valor de esta por un valor grande o dejandola en infinito."
