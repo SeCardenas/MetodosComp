@@ -16,3 +16,7 @@ plt.savefig("Grafica_temp.pdf")
 indexes = np.where(anoms>0.5)
 print "anomalias mayores a 0.5:"
 print years[indexes]
+
+plt.plot(years, anoms2)
+plt.title("Anomalias de temperatura suavizadas")
+plt.savefig("Grafica_temp2.pdf")
