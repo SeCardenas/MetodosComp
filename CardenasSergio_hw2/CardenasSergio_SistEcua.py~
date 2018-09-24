@@ -22,7 +22,7 @@ def gauss_jordan(a, b):
     #Restar en las demas filas
     for j in range(i+1, numRows):
       m[j] = m[j]-m[i]*m[j,i]
-  #Se retorna A reducida y b'
+  #
   return m[:,:-1], m[:,-1:]
 
 Arreglo, B = gauss_jordan(Arreglo, B)

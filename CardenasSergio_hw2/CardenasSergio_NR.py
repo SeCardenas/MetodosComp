@@ -14,16 +14,8 @@ def NewtonRaphson(f, fprime, x0, e=10**(-10)):
             xr = xr - f(xr)/fprime(xr)
         else:
             xr = xr + 0.001
-            print "derivada 0:", xr
         nsteps = nsteps + 1
     return xr, nsteps
-
-#xgess = -3
-xr = NewtonRaphson(pol, polprime, -3, 0)[0]
-print "para xgess = -3, el valor de xr es", xr, "y el valor de f(xr) es", pol(xr)
-#xgess = -1
-xr = NewtonRaphson(pol, polprime, -1, 0)[0]
-print "para xgess = -1, el valor de xr es", xr, "y el valor de f(xr) es", pol(xr)
 
 x0 = np.linspace(-4, 4, 1000)
 plt.plot(x0, pol(x0))
@@ -32,6 +24,13 @@ plt.xlabel("x")
 plt.ylabel("P(x)")
 plt.savefig("CardenasSergio_NRpoli.pdf")
 plt.close()
+
+#xgess = -3
+xr = NewtonRaphson(pol, polprime, -3, 0)[0]
+print "para xgess = -3, el valor de xr es", xr, "y el valor de f(xr) es", pol(xr)
+#xgess = -1
+xr = NewtonRaphson(pol, polprime, -1, 0)[0]
+print "para xgess = -1, el valor de xr es", xr, "y el valor de f(xr) es", pol(xr)
 
 #numero de iteraciones
 x0 = np.random.rand(1000)*8 - 4

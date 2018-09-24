@@ -21,7 +21,7 @@ plt.show()
 
 #literal b
 def generateData(x):
-    return np.max(10*np.exp(-x/0.5) + np.random.normal(0, 0.03, x.shape), np.exp(-10)) #Se hace para que los datos no den negativos
+    return np.maximum(10*np.exp(-x/0.5) + np.random.normal(0, 0.03, x.shape), np.exp(-15)) #Se hace para que los datos no den negativos
 #generacion de datos
 x = np.linspace(0, 6, 30, endpoint=False)
 y = np.zeros((10, 30))
