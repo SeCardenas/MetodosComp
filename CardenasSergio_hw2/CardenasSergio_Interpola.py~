@@ -19,7 +19,7 @@ plt.plot(x, ylin, label="interpolacion lineal")
 plt.plot(x, ycuad, label="interpolacion cuadratica")
 plt.plot(x, ycub, label="interpolacion cubica")
 plt.title("interpolacion con splines")
-plt.legend()
+plt.legend("0")
 plt.savefig("CardenasSergio_Interpola.pdf")
 plt.close()
 

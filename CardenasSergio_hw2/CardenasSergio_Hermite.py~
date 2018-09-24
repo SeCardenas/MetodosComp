@@ -25,7 +25,6 @@ for i in range(1, N+1):
 plt.ylim(-25, 25)
 plt.legend()
 plt.savefig("CardenasSergio_Hermite.pdf")
-plt.close()
 
 #para 500 puntos
 x = np.linspace(-2.5, 2.5, 500)

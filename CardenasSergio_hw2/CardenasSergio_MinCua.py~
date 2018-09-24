@@ -33,15 +33,16 @@ lny = np.log(y)
 oneovertau = np.zeros(10)
 lnA = np.zeros(10)
 M = np.ones((len(x), 2))
-M[:,0] = -x
+M[:,0] = x
 #minimos cuadrados
 MT = np.transpose(M)
 M2 = np.matmul(MT, M)
 for i in range(10):
     B = np.matmul(MT, lny[i])
     oneovertau[i] , lnA[i] = np.matmul(np.linalg.inv(M2), B)
-tau = 1/oneovertau
+tau = -1/oneovertau
 A = np.exp(lnA)
+print np.mean(oneovertau), np.mean(A)
 print "la varianza de los valores calculados para tau es", np.var(tau)
 print "la varianza de los valores calculados para A es", np.var(A)
 

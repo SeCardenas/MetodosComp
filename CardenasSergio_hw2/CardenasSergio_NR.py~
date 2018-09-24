@@ -46,8 +46,6 @@ plt.close()
 #raices encontradas
 plt.scatter(x0, a[:,0], alpha=0.5)
 plt.title("Raices encontradas")
-plt.xlabel("xguess")
-plt.ylabel("raiz encontrada")
 plt.savefig("CardenasSergio_NRxguess.pdf")
 plt.close()
 
